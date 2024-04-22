@@ -1,11 +1,11 @@
 package entity;
 
 public class QuestionEntity {
-    private Long id;
+    private Integer id;
     private String textOfTheQuestion;
     private Integer numberOfTheAnswers;
 
-    public QuestionEntity(Long id, String textOfTheQuestion, Integer numberOfTheAnswers) {
+    public QuestionEntity(Integer id, String textOfTheQuestion, Integer numberOfTheAnswers) {
         this.id = id;
         this.textOfTheQuestion = textOfTheQuestion;
         this.numberOfTheAnswers = numberOfTheAnswers;
@@ -14,11 +14,11 @@ public class QuestionEntity {
     public QuestionEntity() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,9 +41,9 @@ public class QuestionEntity {
     @Override
     public String toString() {
         return "QuestionEntity{" +
-               "id=" + id +
-               ", textOfTheQuestion='" + textOfTheQuestion + '\'' +
-               ", numberOfTheAnswers=" + numberOfTheAnswers +
-               '}';
+                "id=" + id +
+                ", textOfTheQuestion='" + textOfTheQuestion + '\'' +
+                ", numberOfTheAnswers=" + numberOfTheAnswers +
+                '}';
     }
 }
