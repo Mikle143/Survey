@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.Dao;
 import entity.UserEntity;
 import exception.DaoException;
 import util.PoolConnection;
@@ -12,36 +13,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDao implements Dao<Integer, UserEntity>{
-    private static final UserDao INSTANCE=new UserDao();
+public class UserDao implements Dao<Integer, UserEntity> {
+    private static final UserDao INSTANCE = new UserDao();
+
     public static UserDao getInstance() {
         return INSTANCE;
     }
-    private UserDao(){
+
+    private UserDao() {
     }
-    private static final String FIND_ALL= """
+
+    public static final String USER_ID = "user_id";
+    public static final String USER_NAME = "name";
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "password";
+    public static final String ROLE_ID = "role_id";
+    private static final String FIND_ALL = """
             SELECT *
             FROM users
             """;
-    private static final String FIND_BY_ID= """
+    private static final String FIND_BY_ID = """
             SELECT *
             FROM users
             WHERE user_id=?
             """;
-    private static final String DELETE= """
+    private static final String DELETE = """
             DELETE 
             FROM users
             WHERE user_id=?
             """;
-    private static final String UPDATE= """
+    private static final String UPDATE = """
             UPDATE users
             SET name=?,login=?,password=?,role_id=?
             WHERE user_id=? 
             """;
-    private static final String SAVE= """
-           INSERT INTO users (name,login,password,role_id)
-            VALUES (?,?,?,?);
-            """;
+    private static final String SAVE = """
+            INSERT INTO users (name,login,password,role_id)
+             VALUES (?,?,?,?);
+             """;
 
 
     @Override
@@ -49,7 +58,7 @@ public class UserDao implements Dao<Integer, UserEntity>{
         try (var connection = PoolConnection.get();
              var prepareStatement = connection.prepareStatement(FIND_ALL)) {
             var resultSet = prepareStatement.executeQuery();
-            List<UserEntity>userEntities=new ArrayList<>();
+            List<UserEntity> userEntities = new ArrayList<>();
             while (resultSet.next()) {
                 userEntities.add(bildUserEntity(resultSet)
                 );
@@ -62,11 +71,11 @@ public class UserDao implements Dao<Integer, UserEntity>{
 
     private UserEntity bildUserEntity(ResultSet resultSet) throws SQLException {
         return new UserEntity(
-                resultSet.getObject("user_id", Integer.class),
-                resultSet.getObject("name", String.class),
-                resultSet.getObject("login", String.class),
-                resultSet.getObject("password", String.class),
-                resultSet.getObject("role_id", Integer.class)
+                resultSet.getObject(USER_ID, Integer.class),
+                resultSet.getObject(USER_NAME, String.class),
+                resultSet.getObject(LOGIN, String.class),
+                resultSet.getObject(PASSWORD, String.class),
+                resultSet.getObject(ROLE_ID, Integer.class)
         );
     }
 
@@ -79,11 +88,11 @@ public class UserDao implements Dao<Integer, UserEntity>{
             UserEntity userEntity = null;
             if (resultSet.next()) {
                 userEntity = new UserEntity(
-                        resultSet.getInt("user_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getInt("role_id")
+                        resultSet.getInt(USER_ID),
+                        resultSet.getString(USER_NAME),
+                        resultSet.getString(LOGIN),
+                        resultSet.getString(PASSWORD),
+                        resultSet.getInt(ROLE_ID)
                 );
             }
             return Optional.ofNullable(userEntity);
@@ -121,18 +130,18 @@ public class UserDao implements Dao<Integer, UserEntity>{
     public UserEntity save(UserEntity entity) {
         try (var connection = PoolConnection.get();
              var preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1,entity.getName());
-            preparedStatement.setString(2,entity.getLogin());
-            preparedStatement.setString(3,entity.getPassword());
-            preparedStatement.setInt(4,entity.getRoleId());
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.setString(2, entity.getLogin());
+            preparedStatement.setString(3, entity.getPassword());
+            preparedStatement.setInt(4, entity.getRoleId());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                entity.setId(generatedKeys.getInt("user_id"));
-                entity.setId(generatedKeys.getInt("name"));
-                entity.setId(generatedKeys.getInt("login"));
-                entity.setId(generatedKeys.getInt("password"));
-                entity.setId(generatedKeys.getInt("role_id"));
+                entity.setId(generatedKeys.getInt(USER_ID));
+                entity.setId(generatedKeys.getInt(USER_NAME));
+                entity.setId(generatedKeys.getInt(LOGIN));
+                entity.setId(generatedKeys.getInt(PASSWORD));
+                entity.setId(generatedKeys.getInt(ROLE_ID));
             }
             return entity;
 

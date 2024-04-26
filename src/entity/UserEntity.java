@@ -1,5 +1,14 @@
 package entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+
 public class UserEntity {
     private Integer id;
     private String name;
@@ -7,67 +16,4 @@ public class UserEntity {
     private String password;
     private Integer roleId;
 
-    public UserEntity(Integer id, String name, String login, String password, Integer roleId) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.roleId = roleId;
-    }
-
-    public UserEntity() {
-    }
-
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", roleId=" + roleId +
-                '}';
-    }
 }

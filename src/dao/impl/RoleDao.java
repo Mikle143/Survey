@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.Dao;
 import entity.RoleEntity;
 import exception.DaoException;
 import util.PoolConnection;
@@ -12,42 +13,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RoleDao implements Dao<Integer, RoleEntity>{
-    private  static final RoleDao INSTANCE=new RoleDao();
+public class RoleDao implements Dao<Integer, RoleEntity> {
+    private static final RoleDao INSTANCE = new RoleDao();
+
     public static RoleDao getInstance() {
         return INSTANCE;
     }
 
-    private static final String FIND_ALL= """
+    private static final String ROLE_ID = "id";
+    private static final String ROLE = "role";
+
+    private static final String FIND_ALL = """
             SELECT *
             FROM role
             """;
-    private static final String FIND_BY_ID= """
+    private static final String FIND_BY_ID = """
             SELECT *
             FROM role
             WHERE id=?
             """;
-    private static final String DELETE= """
+    private static final String DELETE = """
             DELETE 
             FROM role
             WHERE id=?
             """;
-    private static final String UPDATE= """
+    private static final String UPDATE = """
             UPDATE role
             SET role=?
             WHERE id=? 
             """;
-    private static final String SAVE= """
-           INSERT INTO role (role)
-            VALUES (?);
-            """;
+    private static final String SAVE = """
+            INSERT INTO role (role)
+             VALUES (?);
+             """;
 
     @Override
     public List<RoleEntity> findAll() {
         try (var connection = PoolConnection.get();
              var prepareStatement = connection.prepareStatement(FIND_ALL)) {
             var resultSet = prepareStatement.executeQuery();
-            List<RoleEntity>roleEntities=new ArrayList<>();
+            List<RoleEntity> roleEntities = new ArrayList<>();
             while (resultSet.next()) {
                 roleEntities.add(bildRoleEntity(resultSet)
                 );
@@ -60,8 +65,8 @@ public class RoleDao implements Dao<Integer, RoleEntity>{
 
     private RoleEntity bildRoleEntity(ResultSet resultSet) throws SQLException {
         return new RoleEntity(
-                resultSet.getObject("id", Integer.class),
-                resultSet.getObject("role", String.class)
+                resultSet.getObject(ROLE_ID, Integer.class),
+                resultSet.getObject(ROLE, String.class)
         );
     }
 
@@ -74,8 +79,8 @@ public class RoleDao implements Dao<Integer, RoleEntity>{
             RoleEntity roleEntity = null;
             if (resultSet.next()) {
                 roleEntity = new RoleEntity(
-                        resultSet.getInt("id"),
-                        resultSet.getString("role")
+                        resultSet.getInt(ROLE_ID),
+                        resultSet.getString(ROLE)
                 );
             }
             return Optional.ofNullable(roleEntity);
@@ -99,7 +104,8 @@ public class RoleDao implements Dao<Integer, RoleEntity>{
     public void update(RoleEntity entity) {
         try (var connection = PoolConnection.get();
              var prepareStatement = connection.prepareStatement(UPDATE)) {
-            prepareStatement.setString(1, entity.getRole());;
+            prepareStatement.setString(1, entity.getRole());
+            ;
             prepareStatement.setInt(2, entity.getId());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
@@ -111,11 +117,11 @@ public class RoleDao implements Dao<Integer, RoleEntity>{
     public RoleEntity save(RoleEntity entity) {
         try (var connection = PoolConnection.get();
              var preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1,entity.getRole());
+            preparedStatement.setString(1, entity.getRole());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                entity.setId(generatedKeys.getInt("id"));
+                entity.setId(generatedKeys.getInt(ROLE_ID));
             }
             return entity;
 

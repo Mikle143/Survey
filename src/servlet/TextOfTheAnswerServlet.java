@@ -13,11 +13,11 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/text-of-the-answer")
 
 public class TextOfTheAnswerServlet extends HttpServlet {
-    private final TextOfTheAnswerService textOfTheAnswerService=TextOfTheAnswerService.getInstance();
+    private final TextOfTheAnswerService textOfTheAnswerService = TextOfTheAnswerService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer questionId=Integer.valueOf(req.getParameter("questionId"));
+        Integer questionId = Integer.valueOf(req.getParameter("questionId"));
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try (var printWriter = resp.getWriter()) {
@@ -28,7 +28,7 @@ public class TextOfTheAnswerServlet extends HttpServlet {
                         <li>
                             <href="/text-of-the-answer?questionId=%d">%s</a>
                         </li>
-                        """.formatted(textOfTheAnswerDto.getId(),textOfTheAnswerDto.getAnswerText()));
+                        """.formatted(textOfTheAnswerDto.getId(), textOfTheAnswerDto.getAnswerText()));
             });
             printWriter.write("</ul>");
         }

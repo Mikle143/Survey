@@ -1,14 +1,14 @@
 package service;
 
-import dao.SurveyDao;
+import dao.impl.SurveyDao;
 import dto.SurveyDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SurveyService {
-    private static final SurveyService INSTANCE=new SurveyService();
-    private final dao.SurveyDao surveyDao=SurveyDao.getInstance();
+    private static final SurveyService INSTANCE = new SurveyService();
+    private final SurveyDao surveyDao = SurveyDao.getInstance();
 
     private SurveyService() {
     }
@@ -16,7 +16,8 @@ public class SurveyService {
     public static SurveyService getInstance() {
         return INSTANCE;
     }
-    public List<SurveyDto> findAll(){
+
+    public List<SurveyDto> findAll() {
         return surveyDao.findAll().stream().
                 map(surveyEntity -> new SurveyDto(
                         surveyEntity.getId(),

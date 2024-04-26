@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.Dao;
 import entity.QuestionEntity;
 import exception.DaoException;
 import util.PoolConnection;
@@ -12,68 +13,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class QuestionDao {
+public class QuestionDao implements Dao<Integer, QuestionEntity> {
     private static final QuestionDao INSTANCE = new QuestionDao();
+
     public static QuestionDao getInstance() {
         return INSTANCE;
     }
+
     private QuestionDao() {
     }
-    private static final String DELETE_SQL = """
+
+    private static final String QUESTION_ID = "id";
+    private static final String TEXT_OF_THE_QUESTION = "text_of_the_question";
+    private static final String NUMBER_OF_THE_ANSWERS = "number_of_the_answers";
+    private static final String DELETE = """
             DELETE FROM question
             WHERE id=?
             """;
-    private static final String SAVE_SQL = """
+    private static final String SAVE = """
             INSERT INTO question (text_of_the_question, number_of_the_answers)
             VALUES (?,?);
             """;
-    private static final String UPDATE_SQL = """
+    private static final String UPDATE = """
             UPDATE question
             SET text_of_the_question=?,
                 number_of_the_answers=?
             WHERE id=? 
             """;
-    private static final String SELECT_SQL_BY_ID = """
+    private static final String FIND_BY_ID = """
             SELECT  id,
                     text_of_the_question,
                     number_of_the_answers 
             FROM question 
             WHERE id=?
             """;
-    private static final String FIND_ALL= """
+    private static final String FIND_ALL = """
             SELECT *
             FROM question
             """;
-    private static final String FIND_ALL_BY_SURVEY_ID= """
+    private static final String FIND_ALL_BY_SURVEY_ID = """
             SELECT *
             FROM survey JOIN survey_question sq on survey.id = sq.survey_id JOIN question q on q.id = sq.question_id
             WHERE survey_id=?
             """;
 
-
-
-    public Optional<QuestionEntity> selectById(Integer id) {
-        try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(SELECT_SQL_BY_ID)) {
-            prepareStatement.setInt(1, id);
-            var resultSet = prepareStatement.executeQuery();
-            QuestionEntity questionEntity = null;
-            if (resultSet.next()) {
-                questionEntity = new QuestionEntity(
-                        resultSet.getInt("id"),
-                        resultSet.getString("text_of_the_question"),
-                        resultSet.getInt("number_of_the_answers")
-                );
-            }
-            return Optional.ofNullable(questionEntity);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-    }
-
     public void update(QuestionEntity questionEntity) {
         try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(UPDATE_SQL)) {
+             var prepareStatement = connection.prepareStatement(UPDATE)) {
             prepareStatement.setString(1, questionEntity.getTextOfTheQuestion());
             prepareStatement.setInt(2, questionEntity.getNumberOfTheAnswers());
             prepareStatement.setLong(3, questionEntity.getId());
@@ -85,13 +71,13 @@ public class QuestionDao {
 
     public QuestionEntity save(QuestionEntity questionEntity) {
         try (var connection = PoolConnection.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+             var preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, questionEntity.getTextOfTheQuestion());
             preparedStatement.setInt(2, questionEntity.getNumberOfTheAnswers());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                questionEntity.setId(generatedKeys.getInt("id"));
+                questionEntity.setId(generatedKeys.getInt(QUESTION_ID));
             }
             return questionEntity;
 
@@ -102,7 +88,7 @@ public class QuestionDao {
 
     public boolean delete(Integer id) {
         try (Connection connection = PoolConnection.get();
-             var preparedStatement = connection.prepareStatement(DELETE_SQL)) {
+             var preparedStatement = connection.prepareStatement(DELETE)) {
             preparedStatement.setInt(1, id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -114,7 +100,7 @@ public class QuestionDao {
         try (var connection = PoolConnection.get();
              var prepareStatement = connection.prepareStatement(FIND_ALL)) {
             var resultSet = prepareStatement.executeQuery();
-            List<QuestionEntity>questionEntities=new ArrayList<>();
+            List<QuestionEntity> questionEntities = new ArrayList<>();
             while (resultSet.next()) {
                 questionEntities.add(bildQuestionEntity(resultSet)
                 );
@@ -125,19 +111,40 @@ public class QuestionDao {
         }
     }
 
+    @Override
+    public Optional<QuestionEntity> findById(Integer id) {
+        try (var connection = PoolConnection.get();
+             var prepareStatement = connection.prepareStatement(FIND_BY_ID)) {
+            prepareStatement.setInt(1, id);
+            var resultSet = prepareStatement.executeQuery();
+            QuestionEntity questionEntity = null;
+            if (resultSet.next()) {
+                questionEntity = new QuestionEntity(
+                        resultSet.getInt(QUESTION_ID),
+                        resultSet.getString(TEXT_OF_THE_QUESTION),
+                        resultSet.getInt(NUMBER_OF_THE_ANSWERS)
+                );
+            }
+            return Optional.ofNullable(questionEntity);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
     private QuestionEntity bildQuestionEntity(ResultSet resultSet) throws SQLException {
         return new QuestionEntity(
-                resultSet.getObject("id", Integer.class),
-                resultSet.getObject("text_of_the_question", String.class),
-                resultSet.getObject("number_of_the_answers", Integer.class)
+                resultSet.getObject(QUESTION_ID, Integer.class),
+                resultSet.getObject(TEXT_OF_THE_QUESTION, String.class),
+                resultSet.getObject(NUMBER_OF_THE_ANSWERS, Integer.class)
         );
     }
-    public List<QuestionEntity>findAllBySurveyID(Integer surveyID){
+
+    public List<QuestionEntity> findAllBySurveyID(Integer surveyID) {
         try (var connection = PoolConnection.get();
              var prepareStatement = connection.prepareStatement(FIND_ALL_BY_SURVEY_ID)) {
-             prepareStatement.setObject(1,surveyID);
-             var resultSet= prepareStatement.executeQuery();
-            List<QuestionEntity>questionEntities=new ArrayList<>();
+            prepareStatement.setObject(1, surveyID);
+            var resultSet = prepareStatement.executeQuery();
+            List<QuestionEntity> questionEntities = new ArrayList<>();
             while (resultSet.next()) {
                 questionEntities.add(bildQuestionEntity(resultSet));
 
