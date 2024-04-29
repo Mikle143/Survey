@@ -8,10 +8,11 @@ import util.PoolConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class UserDao implements Dao<Integer, UserEntity> {
     private static final UserDao INSTANCE = new UserDao();
@@ -129,7 +130,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
     @Override
     public UserEntity save(UserEntity entity) {
         try (var connection = PoolConnection.get();
-             var preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
+             var preparedStatement = connection.prepareStatement(SAVE, RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setString(2, entity.getLogin());
             preparedStatement.setString(3, entity.getPassword());
@@ -138,10 +139,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 entity.setId(generatedKeys.getInt(USER_ID));
-                entity.setId(generatedKeys.getInt(USER_NAME));
-                entity.setId(generatedKeys.getInt(LOGIN));
-                entity.setId(generatedKeys.getInt(PASSWORD));
-                entity.setId(generatedKeys.getInt(ROLE_ID));
+
             }
             return entity;
 

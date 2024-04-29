@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 
 public class UserEntity {
     private Integer id;
