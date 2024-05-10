@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class TextOfTheAnswerEntity {
     private Integer id;
     private String answerText;

@@ -1,9 +1,6 @@
 package dto;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter
@@ -13,10 +10,4 @@ import lombok.ToString;
 public class QuestionDto {
     private final Integer id;
     private final String description;
-
-
-
-
-
-
 }

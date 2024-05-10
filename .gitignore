@@ -4,6 +4,8 @@ out/
 !**/src/test/**/out/
 /.idea/
 /.idea/sonarlint/
+.idea/sonarlint/
+.idea/
 
 ### Eclipse ###
 .apt_generated
