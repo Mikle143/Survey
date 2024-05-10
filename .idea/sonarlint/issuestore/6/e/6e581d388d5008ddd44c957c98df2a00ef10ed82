@@ -2,6 +2,6 @@
 Ü
 java:S6548	"˜A Singleton implementation was detected. Make sure the use of the Singleton pattern is required and the implementation is the right one for the context.(˜çµ”8äžÁ˜ï1J$9454ec8e-ab02-4ac1-9046-1cd693934a3a
 •
-java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(„××¨8éžÁ˜ï1J$2ae275e6-fe86-40d3-89dd-c8ee8ffea5f0
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(„××¨8éžÁ˜ï1J$2ae275e6-fe86-40d3-89dd-c8ee8ffea5f0
 •
-java:S6204#"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(„××¨8ÏãÏ¯ï1J$f234317d-2394-4a71-9a33-4bcb3a69c52b
+java:S6204%"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(„××¨8ÏãÏ¯ï1J$f234317d-2394-4a71-9a33-4bcb3a69c52b

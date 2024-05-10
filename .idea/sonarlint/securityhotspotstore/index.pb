@@ -3,14 +3,8 @@ N
 src/entity/QuestionEntity.java,5\4\546060ba65c8c09401f3e26bb244ac7dc1b3b8f3
 L
 src/util/PropertiesUtil.java,5\3\5358e93262058e338a8bdca7f5a9ab98d89b0eb0
-H
-src/dao/QuestionDao.java,9\b\9b5e5dd76e7c68cbefeb0ebde8ff6ee40c7cc9b8
 >
 web/index.html,4\9\49767019a2fee22a613912508aa2789b74108680
-M
-src/servlet/FirstServlet.java,2\2\226142f8931c753ecbb7764787a0780371e2a9d2
-L
-src/entity/AnswerEntity.java,a\1\a1b3000a9e4ad562f1392370529da240474ec344
 J
 src/entity/RoleEntity.java,b\4\b4314f1b06b8bbf8b02710c2f0f875f8ae9bee9c
 L
@@ -19,10 +13,6 @@ J
 src/entity/UserEntity.java,5\1\511a6858b9d94179a8160b76089e7de0a3819b15
 L
 src/util/PoolConnection.java,4\0\4028239d43df7e5e43a05a0d4bceceede8ef8d65
-F
-src/dao/AnswerDao.java,3\2\32211adfb6c05c191e684841f7a2ebbc086e2180
-F
-src/dao/SurveyDao.java,9\5\95531f2cf0306568f5ce75dd892b502f800176ff
 @
 src/dao/Dao.java,8\7\872e4641c2300876f5f48db45af0975db2de3c4c
 P
@@ -37,26 +27,14 @@ N
 src/service/SurveyService.java,9\4\94780ff02fd5bac02b2c559eda94e1590d44f569
 N
 src/servlet/SurveyServlet.java,1\6\168e1d6f443484202606409281ab6c252c7c2e7d
-O
-src/entity/TextOfTheAnswer.java,c\a\ca330bbf5efe069ef2cce3c299338249f9860f7e
 U
 %src/entity/TextOfTheAnswerEntity.java,b\f\bfb676813b524a485fa9647fb853d73b9c4cb2be
-O
-src/dao/TextOfTheAnswerDao.java,6\5\654308292cf97f1cb5f83c717678723b5326b78c
-O
-src/dao/TextOfTheAnswerDto.java,4\d\4d6be68324fddea7e67b5885889447b038b7b1fb
 O
 src/dto/TextOfTheAnswerDto.java,4\7\47667f9ce86e4d904cefd165016867f5d5bb5f22
 W
 'src/service/TextOfTheAnswerService.java,2\5\25cea349105656d4b3f18e399cc197935029e0a4
 W
 'src/servlet/TextOfTheAnswerServlet.java,d\2\d213143d9515eb6b8a569ca5f91bda8bc2ce87be
-G
-web/TextOfTheAnswer.jsp,9\d\9d6657a9ff59e3e8adf283d331195605dc960ba7
-D
-src/dao/RoleDao.java,3\1\31e2a33f9ea35c24db245769ea5053b6bd63cf1d
-D
-src/dao/UserDao.java,7\4\748f41a7892d0799396d6d67f5b518a9fe6d07b8
 w
 G.idea/sonarlint/issuestore/f/d/fd04052e23c365f652f03df84a0f287da4fffa0b,d\c\dc97b411e8e84ecff7ef74bd6f69b834112010b8
 O
@@ -138,3 +116,30 @@ C
 :
 
 Survey.iml,e\7\e70dfdadfaaf16a21f5cf4dd827777e03aaf48bb
+D
+web/registration.jsp,f\7\f7ba727b4f5c4d55fadc3c65eadd92d654d15b66
+S
+#src/servlet/RegistrtionServlet.java,a\3\a38737d624830f8b77138401df63968481276471
+I
+src/dao/impl/UserDao.java,5\5\556b52165ad37ac585d649bfb6f50e312665cc58
+J
+src/dto/CreateUserDto.java,7\0\7098a1e20858243d24bfd1e33ea443944f734c9d
+L
+src/service/UserService.java,2\6\269a5caee93e93cbb6140dfdc01b7b5a858c3de2
+L
+src/validator/Validator.java,0\9\092500755ce422637b9ec20dc64e7fbcf297b3b4
+S
+#src/validator/ValidationResult.java,b\d\bd02cc04c12bdf21a9790482c96292108996afe3
+H
+src/validator/Error.java,f\b\fb8adfd45311d4bcdff593ea13d285fb98878342
+V
+&src/validator/CreateUserValidator.java,e\3\e30506b18743fba5add8950ab4d7d34a4b47b4e0
+F
+src/mapper/Mapper.java,1\0\10ac7f32e2089b216a65cee7e91a0ec3c188c8b0
+P
+ src/mapper/CreateUserMapper.java,2\7\278c92bc01932e5b240fd11820bccb71ae30f7f4
+V
+&src/exception/ValidationException.java,3\3\3385e2d80fc3831f6f38adb7c65b0b9de1ebce6c
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
