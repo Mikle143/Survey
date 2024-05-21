@@ -14,5 +14,4 @@ public class SurveyDto {
     private final Integer id;
     private final String description;
 
-
 }

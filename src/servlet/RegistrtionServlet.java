@@ -11,14 +11,14 @@ import service.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/registration")
+@WebServlet("/reg")
 
 public class RegistrtionServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("registration.jsp").forward(req, resp);
+        req.getRequestDispatcher("reg.jsp").forward(req, resp);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RegistrtionServlet extends HttpServlet {
 
         try {
             userService.create(userDto);
-            resp.sendRedirect("/login");
+            resp.sendRedirect("/index.jsp");
         } catch (ValidationException validationException) {
             req.setAttribute("errorList", validationException.getErrorList());
         }

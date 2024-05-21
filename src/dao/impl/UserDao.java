@@ -3,6 +3,7 @@ package dao.impl;
 import dao.Dao;
 import entity.UserEntity;
 import exception.DaoException;
+import lombok.SneakyThrows;
 import util.PoolConnection;
 
 import java.sql.Connection;
@@ -53,6 +54,11 @@ public class UserDao implements Dao<Integer, UserEntity> {
              VALUES (?,?,?,?);
              """;
 
+    private static final String FIND_BY_LOGIN_AND_PASSWORD = """
+            SELECT *
+            FROM users
+            WHERE login=? AND password=?            
+            """;
 
     @Override
     public List<UserEntity> findAll() {
@@ -145,6 +151,26 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
         } catch (SQLException e) {
             throw new DaoException(e);
+        }
+    }
+    @SneakyThrows
+    public Optional<UserEntity> findByLoginPassword(String login, String password) {
+        try (var connection = PoolConnection.get();
+             var prepareStatement = connection.prepareStatement(FIND_BY_LOGIN_AND_PASSWORD)) {
+            prepareStatement.setString(1, login);
+            prepareStatement.setString(2, password);
+            var resultSet = prepareStatement.executeQuery();
+            UserEntity userEntity = null;
+            if (resultSet.next()) {
+                userEntity = UserEntity.builder()
+                        .id(resultSet.getObject("user_id", Integer.class))
+                        .name(resultSet.getObject("name", String.class))
+                        .login(resultSet.getObject("login", String.class))
+                        .password(resultSet.getObject("password", String.class))
+                        .roleId(resultSet.getObject("role_id", Integer.class))
+                        .build();
+            }
+            return Optional.ofNullable(userEntity);
         }
     }
 }

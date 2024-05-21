@@ -59,11 +59,11 @@ public class QuestionDao implements Dao<Integer, QuestionEntity> {
 
     public void update(QuestionEntity questionEntity) {
         try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(UPDATE)) {
-            prepareStatement.setString(1, questionEntity.getTextOfTheQuestion());
-            prepareStatement.setInt(2, questionEntity.getNumberOfTheAnswers());
-            prepareStatement.setLong(3, questionEntity.getId());
-            prepareStatement.executeUpdate();
+             var preparedStatement = connection.prepareStatement(UPDATE)) {
+            preparedStatement.setString(1, questionEntity.getTextOfTheQuestion());
+            preparedStatement.setInt(2, questionEntity.getNumberOfTheAnswers());
+            preparedStatement.setLong(3, questionEntity.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -98,8 +98,8 @@ public class QuestionDao implements Dao<Integer, QuestionEntity> {
 
     public List<QuestionEntity> findAll() {
         try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(FIND_ALL)) {
-            var resultSet = prepareStatement.executeQuery();
+             var preparedStatement = connection.prepareStatement(FIND_ALL)) {
+            var resultSet = preparedStatement.executeQuery();
             List<QuestionEntity> questionEntities = new ArrayList<>();
             while (resultSet.next()) {
                 questionEntities.add(bildQuestionEntity(resultSet)
@@ -114,9 +114,9 @@ public class QuestionDao implements Dao<Integer, QuestionEntity> {
     @Override
     public Optional<QuestionEntity> findById(Integer id) {
         try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(FIND_BY_ID)) {
-            prepareStatement.setInt(1, id);
-            var resultSet = prepareStatement.executeQuery();
+             var preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            var resultSet = preparedStatement.executeQuery();
             QuestionEntity questionEntity = null;
             if (resultSet.next()) {
                 questionEntity = new QuestionEntity(
@@ -133,17 +133,18 @@ public class QuestionDao implements Dao<Integer, QuestionEntity> {
 
     private QuestionEntity bildQuestionEntity(ResultSet resultSet) throws SQLException {
         return new QuestionEntity(
-                resultSet.getObject(QUESTION_ID, Integer.class),
-                resultSet.getObject(TEXT_OF_THE_QUESTION, String.class),
-                resultSet.getObject(NUMBER_OF_THE_ANSWERS, Integer.class)
+                resultSet.getInt(QUESTION_ID),
+                resultSet.getString(TEXT_OF_THE_QUESTION),
+                resultSet.getInt(NUMBER_OF_THE_ANSWERS)
         );
     }
 
     public List<QuestionEntity> findAllBySurveyID(Integer surveyID) {
         try (var connection = PoolConnection.get();
-             var prepareStatement = connection.prepareStatement(FIND_ALL_BY_SURVEY_ID)) {
-            prepareStatement.setObject(1, surveyID);
-            var resultSet = prepareStatement.executeQuery();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_BY_SURVEY_ID)) {
+            preparedStatement.setInt(1, surveyID);
+            var resultSet = preparedStatement.executeQuery();
+
             List<QuestionEntity> questionEntities = new ArrayList<>();
             while (resultSet.next()) {
                 questionEntities.add(bildQuestionEntity(resultSet));
