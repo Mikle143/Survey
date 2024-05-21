@@ -5,18 +5,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.QuestionService;
+import service.ResultService;
 
 import java.io.IOException;
-@WebServlet("/questionss")
-public class QuestionChoiceServlet extends HttpServlet {
-    private final QuestionService questionService=QuestionService.getInstance();
 
+@WebServlet("/result")
+public class ResultServlet extends HttpServlet {
+
+    private final ResultService resultService=ResultService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var surveyId=Integer.valueOf(req.getParameter("surveyId"));
-        req.setAttribute("questions", questionService.findAllBySurveyID(surveyId));
-        req.getRequestDispatcher("question_choice.jsp").forward(req, resp);
-        req.getSession().setAttribute("surveyId", surveyId);
+        req.setAttribute("results", resultService.findBySurveyID(surveyId));
+        req.getRequestDispatcher("result.jsp").forward(req, resp);
     }
 }

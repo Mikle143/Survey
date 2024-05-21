@@ -9,8 +9,8 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class SurveyEntity {
-    private Integer id;
-    private String name;
-
+public class ResultEntity {
+    private String question_text;
+    private String answer_text;
+    private Integer answer_count;
 }

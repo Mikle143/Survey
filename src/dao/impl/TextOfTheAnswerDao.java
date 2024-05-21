@@ -47,7 +47,7 @@ public class TextOfTheAnswerDao implements Dao<Integer, TextOfTheAnswerEntity> {
             WHERE id=? 
             """;
     private static final String SAVE = """
-            INSERT INTO text_of_the_answer (answer_text)
+            INSERT INTO public.text_of_the_answer (answer_text)
              VALUES (?);
              """;
 

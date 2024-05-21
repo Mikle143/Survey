@@ -52,8 +52,8 @@ public class QuestionDao implements Dao<Integer, QuestionEntity> {
             FROM question
             """;
     private static final String FIND_ALL_BY_SURVEY_ID = """
-            SELECT *
-            FROM survey JOIN survey_question sq on survey.id = sq.survey_id JOIN question q on q.id = sq.question_id
+            SELECT q.id, text_of_the_question, number_of_the_answers
+            FROM question q JOIN survey_question sq on q.id = sq.question_id JOIN survey s on s.id = sq.survey_id
             WHERE survey_id=?
             """;
 

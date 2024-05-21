@@ -28,14 +28,15 @@
                     <label class="form-label" for="login">Логин</label>
                   </div>
 
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <label class="form-label" for="role">Роль</label>
-                    <select name="role" id="role">
-                    <option value="1">guest</option>
-                    <option value="2">respondent</option>
-                    <option value="3">admin</option>
-                  </select>
-                  </div>
+                  <input type="hidden" name="role" value="3">
+<%--                  <div data-mdb-input-init class="form-outline mb-4">--%>
+<%--                    <label class="form-label" for="role">Роль</label>--%>
+<%--                    <select name="role" id="role">--%>
+<%--                    <option value="1">guest</option>--%>
+<%--                    <option value="2">respondent</option>--%>
+<%--                    <option value="3">admin</option>--%>
+<%--                  </select>--%>
+<%--                  </div>--%>
 
 
                   <div data-mdb-input-init class="form-outline mb-4">

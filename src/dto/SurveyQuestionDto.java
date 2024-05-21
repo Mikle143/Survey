@@ -7,8 +7,9 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class TextOfTheAnswerDto {
-    private final Integer id;
-    private final String answerText;
+public class SurveyQuestionDto {
+    Integer surveyId;
+    Integer question_id;
 
 }
+

@@ -9,8 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class SurveyEntity {
-    private Integer id;
-    private String name;
-
+public class SurveyQuestionEntity {
+    private Integer survey_id;
+    private Integer question_id;
 }

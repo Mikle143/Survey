@@ -14,7 +14,7 @@
   </h1>
   <ul>
     <c:forEach var="question" items="${requestScope.questions}">
-            <a href="answerss?questionId=${question.id}" class="list-group-item list-group-item-action">${question.description}</a>
+            <a href="answer?questionId=${question.id}" class="list-group-item list-group-item-action">${question.description}</a>
     </c:forEach>
   </ul>
 </div>
